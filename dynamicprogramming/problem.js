@@ -264,3 +264,62 @@ function coinChange(coins, amount) {
 
   return T[numWays - 1] === Infinity ? -1 : T[numWays - 1];
 }
+
+/**
+ https://leetcode.com/problems/house-robber/
+
+ You are a professional robber planning to rob houses along a street. 
+ Each house has a certain amount of money stashed, the only constraint 
+ stopping you from robbing each of them is that adjacent houses have 
+ security systems connected and it will automatically contact the police 
+ if two adjacent houses were broken into on the same night.
+
+ Given an integer array nums representing the amount of money of each house, 
+ return the maximum amount of money you can rob tonight without alerting the police.
+
+
+ Example 1:
+ Input: nums = [1,2,3,1]
+ Output: 4
+ Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+ Total amount you can rob = 1 + 3 = 4.
+
+ Example 2:
+ Input: nums = [2,7,9,3,1]
+ Output: 12
+ Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+ Total amount you can rob = 2 + 9 + 1 = 12.
+ */
+
+function rob(houses) {
+  // zero houses check
+  if (houses.length === 0) {
+    return 0;
+  }
+
+  // create 1D memo table, filling with 0's
+  let T = [];
+  for (let i = 0; i < houses.length; i++) {
+    T[i] = 0;
+  }
+
+  // set T(1) base case as first house
+  T[1] = houses[0];
+
+  // iterate over houses and pull out individual rob value
+  // we start at 1 because we want to look at the second house
+  // T[1] already has the rob value of the first house
+  for (let i = 1; i < houses.length; i++) {
+    let val = houses[i];
+    // we are trying to set the value for our memo table
+    // based on the previous home's rob value
+    // so we take the max of the previous house + current house,
+    // or the previous house if that value was greater
+    // we do this b/c we can't rob two adjacent houses
+    T[i + 1] = Math.max(T[i - 1] + val, T[i]);
+  }
+
+  return T[houses.length];
+}
+
+console.log(rob([2, 7, 9, 3, 1]));
