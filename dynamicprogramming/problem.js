@@ -1,3 +1,6 @@
+console.log("***************************************");
+console.log("Minimum Path Sum");
+console.log("***************************************");
 /**
   https://leetcode.com/problems/minimum-path-sum/
 
@@ -61,7 +64,7 @@ function minPathSum(grid) {
       );
     }
   }
-  console.log(memoTable);
+  // console.log(memoTable);
   // return the last/bottom most element in the memo table
   // this is our minimum path
   return memoTable[row - 1][col - 1];
@@ -74,6 +77,10 @@ const grid = [
 ];
 
 console.log(minPathSum(grid));
+
+console.log("***************************************");
+console.log("Unique Paths");
+console.log("***************************************");
 
 /**
  https://leetcode.com/problems/unique-paths/
@@ -132,6 +139,10 @@ function uniquePaths(m, n) {
 
 console.log(uniquePaths(3, 2));
 
+console.log("***************************************");
+console.log("Best Time to Buy and Sell Stock");
+console.log("***************************************");
+
 /**
  https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
@@ -150,6 +161,10 @@ Input: prices = [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transactions are done and the max profit = 0.
 **/
+
+console.log("***************************************");
+console.log("Min Cost Climbing Stairs");
+console.log("***************************************");
 
 /**
  https://leetcode.com/problems/min-cost-climbing-stairs/
@@ -188,6 +203,9 @@ function minCostStairs(cost) {
   return min(T[cost.length - 1], T[cost.length - 2]);
 }
 
+console.log("***************************************");
+console.log("Coin Change");
+console.log("***************************************");
 /**
  https://leetcode.com/problems/coin-change/description/
 
@@ -265,6 +283,10 @@ function coinChange(coins, amount) {
   return T[numWays - 1] === Infinity ? -1 : T[numWays - 1];
 }
 
+console.log("***************************************");
+console.log("House Robber");
+console.log("***************************************");
+
 /**
  https://leetcode.com/problems/house-robber/
 
@@ -323,3 +345,72 @@ function rob(houses) {
 }
 
 console.log(rob([2, 7, 9, 3, 1]));
+
+console.log("***************************************");
+console.log("Longest Common Subsequence");
+console.log("***************************************");
+
+/**
+  https://leetcode.com/problems/longest-common-subsequence/description/
+ 
+  Given two strings str1 and str2, return the length of their longest
+  common subsequence. If there is no common subsequence, return 0.
+  A subsequence of a string is a new string generated from the original 
+  string with some characters (can be none) deleted without changing the 
+  relative order of the remaining characters.
+
+  For example, "ace" is a subsequence of "abcde".
+
+  A common subsequence of two strings is a subsequence that is common to both strings.
+
+  Example 1:
+  Input: str1 = "abcde", str2 = "ace" 
+  Output: 3  
+  Explanation: The longest common subsequence is "ace" and its length is 3.
+
+  Example 2:
+  Input: str1 = "abc", str2 = "abc"
+  Output: 3
+  Explanation: The longest common subsequence is "abc" and its length is 3.
+
+  Example 3:
+  Input: str1 = "abc", str2 = "def"
+  Output: 0
+  Explanation: There is no such common subsequence, so the result is 0.
+ */
+
+function longestCommonSubsequence(str1, str2) {
+  // get length of both strings plus one
+  let m = str1.length + 1;
+  let n = str2.length + 1;
+
+  // create new 2D DP table, set values as 0
+  let T = [];
+  for (let i = 0; i < m; i++) {
+    T[i] = [];
+    for (let j = 0; j < n; j++) {
+      T[i][j] = 0;
+    }
+  }
+
+  // iterate over 2D table, starting at 1 thru m and n
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      // each time, check if the characters at i-1 and j-1 are equal
+      if (str1[i - 1] === str2[j - 1]) {
+        // if yes, set the value of the DP table to be these values + 1
+        T[i][j] = T[i - 1][j - 1] + 1;
+      } else {
+        // else, set the value of the DP table to be the max of the
+        // above row and the col to the left
+        T[i][j] = Math.max(T[i][j - 1], T[i - 1][j]);
+      }
+    }
+  }
+
+  // return the last/bottom element in the table
+  return T[m - 1][n - 1];
+}
+
+console.log(longestCommonSubsequence("abcde", "ace"));
+console.log(longestCommonSubsequence("abc", "def"));
